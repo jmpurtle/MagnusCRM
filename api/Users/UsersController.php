@@ -1,11 +1,9 @@
 <?php
-namespace Home {
+namespace Users {
 	
-	class RootController {
+	class UsersController {
 
 		private $context;
-
-		public $users = '\\Users\\UsersController';
 
 		public function __construct($context = null) {
 			$this->context = $context;
@@ -15,8 +13,8 @@ namespace Home {
 
 			return array(
 				'HTTPStatusCode' => '200',
-				'view'           => 'home/index',
-				'title'          => 'MagnusCRM'
+				'view'           => 'users/index',
+				'title'          => 'MagnusCRM - Users'
 			);
 
 		}
