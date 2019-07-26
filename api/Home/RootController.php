@@ -5,8 +5,9 @@ namespace Home {
 
 		private $context;
 
-		public $users    = '\\Users\\UsersController';
-		public $contacts = '\\Contacts\\ContactsController';
+		public $users     = '\\Users\\UsersController';
+		public $contacts  = '\\Contacts\\ContactsController';
+		public $campaigns = '\\Campaigns\\CampaignsController';
 
 		public function __construct($context = null) {
 			$this->context = $context;
