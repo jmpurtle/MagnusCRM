@@ -1,12 +1,14 @@
 <?php
 namespace Users {
 	
-	class UsersController {
+	class UserController {
 
 		private $context;
+		public $id;
 
-		public function __construct($context = null) {
+		public function __construct($context, $id) {
 			$this->context = $context;
+			$this->id = $id;
 		}
 
 		public function __invoke($context = null) {
@@ -14,15 +16,9 @@ namespace Users {
 			return array(
 				'HTTPStatusCode' => '200',
 				'view'           => 'users/index',
-				'title'          => 'MagnusCRM - Users'
+				'title'          => 'MagnusCRM - User: ' . $this->id
 			);
 
-		}
-
-		public function __get($id) {
-
-			return new UserController($this->context, $id);
-			
 		}
 
 	}
