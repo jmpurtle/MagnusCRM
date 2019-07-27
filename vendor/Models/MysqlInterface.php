@@ -4,6 +4,10 @@ namespace Models {
 	class MysqlInterface {
 
 		public $conn;
+		protected $hostID;
+		protected $counter;
+		protected $processID;
+		protected $idData;
 
 		public function __construct(Array $config) {
 
@@ -24,6 +28,11 @@ namespace Models {
 			);
 
 			$this->conn = new PDO($connString, $connInfo['user'], $connInfo['pass'], $pdoOpts);
+
+			$this->hostID = substr(md5(gethostname()), 0, 6);
+			$this->counter = mt_rand();
+			$this->processID = getmypid() % 0xFFFF;
+			$this->idData = $this->getIdentity();
 		}
 
 		public function executeQuery($query, Array $params = []) {
@@ -42,6 +51,23 @@ namespace Models {
 			while ($row = $stmt->fetch()) {
 				yield $row;
 			}
+		}
+
+		public function getIdentity() {
+			if (isset($this->idData)) {
+				return $this->idData;
+			}
+			$userAgent = (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : 'None';
+			$ipAddress = (isset($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : 'None';
+			$this->idData = [
+				'ua' => $userAgent,
+				'ip' => $ipAddress
+			];
+			return $this->idData;
+		}
+
+		public function generateObjID() {
+			return dechex(time()) . $this->hostID . dechex($this->processID) . dechex($this->counter++);
 		}
 
 	}
