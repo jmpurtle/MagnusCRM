@@ -33,9 +33,9 @@ $context->serverRoot = $serverRoot;
 $context->request = $request;
 $context->path = $path;
 
-$root = new \Home\RootController();
+$root = '\\Home\\RootController';
 
-$router = new \Magnus\Core\Router();
+$router = new \Magnus\Core\Router($context);
 foreach ($router($root, $path) as list($previous, $obj, $isEndpoint)) {
     if ($isEndpoint) { break; }
 }
