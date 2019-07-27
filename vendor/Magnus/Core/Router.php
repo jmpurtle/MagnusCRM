@@ -3,8 +3,10 @@ namespace Magnus\Core {
 	
 	class Router {
 
-		public function __construct() {
+		protected $context;
 
+		public function __construct($context) {
+			$this->context = $context;
 		}
 
 		public function routeIterator(&$path) {
@@ -40,7 +42,7 @@ namespace Magnus\Core {
 				// This section would only be hit if there's more than one element in the path
 				if (!is_object($obj)) {
 					if (class_exists($obj)) {
-						$obj = new $obj();
+						$obj = new $obj($this->context);
 					} else {
 						yield [$previous, $obj, true];
 						return;
@@ -108,7 +110,7 @@ namespace Magnus\Core {
 			// We've run out of path elements to consume (if any)
 			if (!is_object($obj)) {
 				if (class_exists($obj)) {
-					$obj = new $obj();
+					$obj = new $obj($this->context);
 				} else {
 					yield [$previous, $obj, true];
 					return;
