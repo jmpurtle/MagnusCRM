@@ -67,5 +67,9 @@ namespace Magnus\Core {
 			return getallheaders();
 		}
 
+		public function getMethod() {
+			return $_SERVER['REQUEST_METHOD'];
+		}
+
 	}
 }
