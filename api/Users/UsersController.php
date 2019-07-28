@@ -12,6 +12,10 @@ namespace Users {
 
 		public function __invoke($context = null) {
 
+			if ($this->context->request->getMethod() == 'POST') {
+				return $this->createUser();
+			}
+
 			$model = new Collection($this->context->settings['dbDrivers']['mysql']);
 			$model->get_many();
 
@@ -27,6 +31,14 @@ namespace Users {
 				'users'          => $results
 			);
 
+		}
+
+		protected function createUser() {
+			$user = new UserController($this->context, null);
+			$user->createRecord($this->context->request->getRequestBody());
+			$user->save();
+
+			return $this->__get($user->id);
 		}
 
 		public function __get($id) {
